@@ -1,0 +1,20 @@
+type User {
+    username: String!
+    password: String!
+    names: String!
+}
+
+input UserDto {
+    username: String!
+    password: String!
+}
+
+type Query {
+    "Get user"
+    user: User
+}
+
+type Mutation {
+    "Login"
+    login(input: UserDto!): Boolean
+}

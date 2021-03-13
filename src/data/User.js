@@ -1,7 +1,9 @@
+'use strict';
+
 const fetch = require("node-fetch");
 const { endpoint, hasuraSecret } = require("../config");
 
-const getUserData = (username) => {
+const getUser = (username) => {
   return fetch(endpoint, {
     method: "POST",
     headers: {
@@ -21,6 +23,8 @@ const getUserData = (username) => {
       variables: { username },
     }),
   }).then((response) => response.json());
-};
+  };
 
-module.exports = getUserData;
+module.exports = {
+  getUser,
+};

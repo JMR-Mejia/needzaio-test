@@ -1,34 +1,33 @@
+"use strict";
+
 const express = require("express");
+const { graphqlHTTP } = require("express-graphql");
+const { readFileSync } = require("fs");
+const { join } = require("path");
+const { makeExecutableSchema } = require("graphql-tools");
 
-const getUser = require("./data/User");
-const { port } = require('./config')
+const { port } = require("./config");
+const resolvers = require("./lib/resolver");
 
-// config 
+// config
 const app = express();
 app.use(express.json());
 
-app.post("/login", (req, res) => {
-  // get request input and validate
-  const data = req.body;
-  if (data.username === undefined || data.password === undefined) {
-    return res.status(400).json({
-      message: "data is missing or incorrect"
-    })
-  }
+// definition schema
+const typeDefs = readFileSync(
+  join(__dirname, "lib", "schema.graphql"),
+  "utf-8"
+);
 
-  // Validate info user with database
-  return getUser(data.username).then(function (resp) {
-    const user = resp.data.USER_by_pk;
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-    if (req.body.password === user.PASSWORD) {
-      return res.json({
-        access: true
-      });
-    }
-    return res.status(400).json({
-      access: false,
-    });
-  });
-});
+app.use(
+  "/api-docs",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: resolvers,
+    graphiql: true,
+  })
+);
 
 app.listen(port);
