@@ -30,4 +30,17 @@ app.use(
   })
 );
 
+app.use(
+  "/api",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: resolvers,
+    graphiql: false,
+  })
+);
+
+app.get('/', function (req , res) {
+  res.redirect('/api')
+})
+
 app.listen(port);
