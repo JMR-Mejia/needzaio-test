@@ -1,0 +1,30 @@
+language: node_js
+
+cache:
+  directories:
+    - node_modules
+    - ~/.npm
+
+node_js:
+  - '14'
+
+git:
+  depth: 3
+
+notifications:
+  email:
+    recipients:
+      - chucho4720013@gmail.com
+    on_success: always
+    on_failure: always
+
+deploy:
+  provider: heroku
+  skip_cleanup: true
+  keep-history: true
+  api_key: 
+    secure:
+    travis encrypt 54ef6d2e-e088-4c21-9c2f-50748ce69a03 --com
+  app: needzaio-test
+  on:
+    repo: JMR-Mejia/needzaio-test
