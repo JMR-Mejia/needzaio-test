@@ -31,6 +31,30 @@ Start the server:
 $ npm run start
 ```
 
+## Code Fragment for Query
+
+### Query
+
+```
+{
+    user {
+        username
+        password
+    }
+}
+```
+
+### Mutation
+
+```
+mutation {
+    login(input: {
+        username: "needzaio"
+        password: "123456"
+    })
+}
+```
+
 ## People
 
 The original author is [JMR-Mejia](https://github.com/JMR-Mejia)
